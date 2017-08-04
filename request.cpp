@@ -103,6 +103,12 @@ QJSValue RequestPrototype::clearTimeout()
     return self();
 }
 
+QJSValue RequestPrototype::compress()
+{
+    m_request->setRawHeader("Content-encoding", "deflate");
+    return self();
+}
+
 QJSValue RequestPrototype::abort()
 {
     if (m_reply && m_reply->isRunning())
@@ -466,14 +472,27 @@ QByteArray RequestPrototype::serializeData()
     QByteArray type = m_request->header(
                 QNetworkRequest::ContentTypeHeader).toByteArray();
 
+    QByteArray result;
     if (type.contains(contentTypes["json"])) {
         JsonCodec json(m_engine);
-        return json.stringify(m_data);
+        result = json.stringify(m_data);
     } else if (type.contains(contentTypes["form"])) {
         FormUrlEncodedCodec urlencoded(m_engine);
-        return urlencoded.stringify(m_data);
+        result = urlencoded.stringify(m_data);
+    } else {
+        result = m_data.toString().toUtf8();
     }
-    return m_data.toString().toUtf8();
+
+    if (m_request->hasRawHeader("Content-encoding")) {
+        QByteArray encoding = m_request->rawHeader("Content-encoding");
+        if (encoding == "deflate") {
+            result = qCompress(result);
+            // http://stackoverflow.com/questions/8810897/how-to-zlib-compress-a-qbytearray
+            result.remove(0, 4);
+    }
+    }
+
+    return result;
 }
 
 void RequestPrototype::dispatchRequest()

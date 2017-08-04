@@ -56,6 +56,7 @@ public:
     Q_INVOKABLE QJSValue use(QJSValue fn);
     Q_INVOKABLE QJSValue timeout(int ms);
     Q_INVOKABLE QJSValue clearTimeout();
+    Q_INVOKABLE QJSValue compress();
     Q_INVOKABLE QJSValue abort();
     Q_INVOKABLE QJSValue set(const QJSValue&, const QJSValue& = QJSValue());
     Q_INVOKABLE QJSValue unset(const QString&);
