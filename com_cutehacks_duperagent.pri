@@ -1,3 +1,4 @@
+INCLUDEPATH += $$PWD
 
 HEADERS += $$PWD/duperagent.h \
     $$PWD/qpm.h \
