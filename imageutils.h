@@ -24,7 +24,7 @@ public:
     QJSValue self() const { return m_self; }
 
     Q_INVOKABLE QJSValue size() const;
-    Q_INVOKABLE int fileSize() const;
+    Q_INVOKABLE qint64 fileSize() const;
 
     Q_INVOKABLE QJSValue setScaledSize(int, int, const QJSValue& = QJSValue());
     Q_INVOKABLE QJSValue setClipRect(int, int, int, int);

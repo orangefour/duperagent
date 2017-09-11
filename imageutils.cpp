@@ -54,12 +54,12 @@ QJSValue Image::size() const
     return val;
 }
 
-int Image::fileSize() const
+qint64 Image::fileSize() const
 {
     QString fn = m_reader->fileName();
     if (!fn.isEmpty()) {
         QFileInfo info(m_reader->fileName());
-        return (int)info.size();
+        return info.size();
     } else {
         return m_reader->device()->size();
     }
