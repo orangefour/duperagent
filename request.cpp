@@ -203,7 +203,7 @@ QJSValue RequestPrototype::query(const QJSValue &query)
         while (it.next()) {
             m_query.addQueryItem(
                         it.name(),
-                        it.value().toString());
+                        QUrl::toPercentEncoding(it.value().toString()));
         }
     } else if (query.isString()) {
         QUrlQuery parsed(query.toString());
